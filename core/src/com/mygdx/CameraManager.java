@@ -1,20 +1,23 @@
 package com.mygdx;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
 public class CameraManager {
     public int player_bound;
-    public float zoom, min_speed;
+    public float zoom_mult;
     public int X_position, Y_position;
     public OrthographicCamera camera;
     public int playerX, playerY; //temporary variable to remove errors until real player values are available
+    public float deltaTime = 0;
     
     public void setup(){
         playerX = 1;
         playerY = 1;
         X_position = playerX;
         Y_position = playerY;
-        zoom = 1;
+        zoom_mult = 0.2f;
         camera = new OrthographicCamera(X_position, Y_position); 
     }
 
@@ -23,6 +26,7 @@ public class CameraManager {
             catchup();
             boundary_check();
         }
+        zoom();
         camera.position.set(X_position, Y_position, 0);
         camera.update();
     }
@@ -44,26 +48,26 @@ public class CameraManager {
     }
 
     private void catchup(){
-        int X_move = ((playerX - X_position) * 0.5) * deltaTime;
-        int Y_move = ((playerY - Y_position) * 0.5) * deltaTime;
+        double X_move = ((playerX - X_position) * 0.5) * deltaTime;
+        double Y_move = ((playerY - Y_position) * 0.5) * deltaTime;
         
-        if (X_move > 0 && X_move < 2){
-            X_move = 2;
+        if (X_move > 0 && X_move < 1){
+            X_move = 1;
         }
-        else if (X_move < 0 && X_move > -2){
+        else if (X_move < 0 && X_move > -1){
             X_move = -2;
         }
 
-        if (Y_move > 0 && Y_move < 2){
-            Y_move = 2;
+        if (Y_move > 0 && Y_move < 1){
+            Y_move = 1;
         }
-        if (Y_move < 0 && Y_move > -2){
-            Y_move = -2;
+        if (Y_move < 0 && Y_move > -1){
+            Y_move = -1;
         }
         
         
-        int new_X = X_position + X_move;
-        int new_Y = Y_position + Y_move;
+        int new_X = X_position + (int)Math.round(X_move);
+        int new_Y = Y_position + (int)Math.round(Y_move);
 
         if ((X_position < playerX && new_X > playerX) || (X_position > playerX && new_X < playerX)){
             X_position = playerX;
@@ -78,5 +82,15 @@ public class CameraManager {
         else{
             Y_position = new_Y;
         }
+    }
+
+    private void zoom(){
+        if (Gdx.input.isKeyPressed(Keys.PLUS)){
+            camera.zoom += camera.zoom*zoom_mult*deltaTime;
+        }
+        else if (Gdx.input.isKeyPressed(Keys.MINUS)){
+            camera.zoom -= camera.zoom*zoom_mult*deltaTime;
+        }
+
     }
 }
