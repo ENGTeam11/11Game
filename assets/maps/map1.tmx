@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="30" height="35" tilewidth="16" tileheight="16" infinite="0" nextlayerid="45" nextobjectid="1">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="30" height="35" tilewidth="16" tileheight="16" infinite="0" nextlayerid="46" nextobjectid="1">
  <tileset firstgid="1" source="tilesets/Terrain.tsx"/>
  <tileset firstgid="1513" source="tilesets/house_walls.tsx"/>
  <tileset firstgid="4695" source="tilesets/house_assets.tsx"/>
@@ -162,6 +162,7 @@
 </data>
   </layer>
  </group>
+ <group id="45" name="cs_building" locked="1"/>
  <group id="34" name="house" locked="1">
   <layer id="27" name="house_tiles1" width="30" height="35" locked="1">
    <data encoding="csv">
