@@ -10,9 +10,10 @@ public class CameraManager {
     public int X_position, Y_position;
     public OrthographicCamera camera;
     public int playerX, playerY; //temporary variable to remove errors until real player values are available
-    public float deltaTime = 0;
+    public float deltaTime = 0; //also temporary until a real deltatime is present to be used
     
-    public void setup(){
+    // Used to instantiate the camera object and give some initial values
+    public CameraManager(){
         playerX = 1;
         playerY = 1;
         X_position = playerX;
@@ -21,6 +22,7 @@ public class CameraManager {
         camera = new OrthographicCamera(X_position, Y_position); 
     }
 
+    // Calls the camera catchup and zoom functions to update the cameras positioning
     public void update(){
         if (X_position != playerX || Y_position != playerY){
             catchup();
@@ -31,6 +33,7 @@ public class CameraManager {
         camera.update();
     }
 
+    // Makes sure that the camera stays within a set distance of the player to prevent them going off screen
     private void boundary_check(){
         if (X_position > playerX + player_bound){
             X_position = playerX + player_bound;
@@ -47,9 +50,10 @@ public class CameraManager {
         }
     }
 
+    //slowly moves the camera to be centered on the player
     private void catchup(){
-        double X_move = ((playerX - X_position) * 0.5) * deltaTime;
-        double Y_move = ((playerY - Y_position) * 0.5) * deltaTime;
+        double X_move = ((playerX - X_position) * 0.2) * deltaTime;
+        double Y_move = ((playerY - Y_position) * 0.2) * deltaTime;
         
         if (X_move > 0 && X_move < 1){
             X_move = 1;
@@ -84,6 +88,7 @@ public class CameraManager {
         }
     }
 
+    // Allows the camera to be zoomed in or out
     private void zoom(){
         if (Gdx.input.isKeyPressed(Keys.PLUS)){
             camera.zoom += camera.zoom*zoom_mult*deltaTime;
