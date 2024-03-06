@@ -1,49 +1,31 @@
 package com.mygdx;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.ScreenUtils;
 
-public class MyGame extends Game {
-    private OrthographicCamera camera;
-    private Viewport viewport;
-    private TiledMap map;
-    private OrthogonalTiledMapRenderer mapRenderer;
+public class Game extends ApplicationAdapter {
+	SpriteBatch batch;
+	Texture img;
+	
+	@Override
+	public void create () {
+		batch = new SpriteBatch();
+		img = new Texture("badlogic.jpg");
+	}
 
-    private final float mapWidth = 480f;
-    private final float mapHeight = 560f;
-
-    @Override
-    public void create() {
-        camera = new OrthographicCamera();
-        // Adjust the viewport size to your map dimensions
-        viewport = new StretchViewport(mapWidth, mapHeight, camera);
-        map = new TmxMapLoader().load("maps/map1.tmx");
-        mapRenderer = new OrthogonalTiledMapRenderer(map);
-    }
-
-    @Override
-    public void render() {
-        // Clear the screen and update the camera
-        camera.update();
-        mapRenderer.setView(camera);
-        mapRenderer.render();
-    }
-
-    @Override
-    public void resize(int width, int height) {
-        viewport.update(width, height, true);
-    }
-
-    @Override
-    public void dispose() {
-        map.dispose();
-        mapRenderer.dispose();
-    }
+	@Override
+	public void render () {
+		ScreenUtils.clear(1, 0, 0, 1);
+		batch.begin();
+		batch.draw(img, 0, 0);
+		batch.end();
+	}
+	
+	@Override
+	public void dispose () {
+		batch.dispose();
+		img.dispose();
+	}
 }
