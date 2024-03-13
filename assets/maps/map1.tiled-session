@@ -1,0 +1,40 @@
+{
+    "activeFile": "map1.tmx",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "Outside Assests.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Stairs.tsx": {
+            "scaleInDock": 4,
+            "scaleInEditor": 1
+        },
+        "Terrain.tsx": {
+            "scaleInDock": 4,
+            "scaleInEditor": 1
+        },
+        "map1.tmx": {
+            "scale": 1,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 314.5,
+                "y": 303
+            }
+        }
+    },
+    "map.lastUsedFormat": "tmx",
+    "openFiles": [
+        "map1.tmx"
+    ],
+    "project": "map1.tiled-project",
+    "recentFiles": [
+        "map1.tmx",
+        "Outside Assests.tsx",
+        "Stairs.tsx",
+        "Terrain.tsx"
+    ]
+}

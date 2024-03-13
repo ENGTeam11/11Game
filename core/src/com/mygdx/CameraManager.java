@@ -3,57 +3,53 @@ package com.mygdx;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector2;
 
 public class CameraManager {
     public int player_bound;
     public float zoom_mult;
-    public int X_position, Y_position;
+    public Vector2 position;
     public OrthographicCamera camera;
-    public int playerX, playerY; //temporary variable to remove errors until real player values are available
-    public float deltaTime = 0; //also temporary until a real deltatime is present to be used
     
     // Used to instantiate the camera object and give some initial values
-    public CameraManager(){
-        playerX = 1;
-        playerY = 1;
-        X_position = playerX;
-        Y_position = playerY;
+    public CameraManager(Vector2 player_pos){
+        position = new Vector2(player_pos.x, player_pos.y);
         zoom_mult = 0.2f;
-        camera = new OrthographicCamera(X_position, Y_position); 
+        camera = new OrthographicCamera(position.x, position.y); 
     }
 
     // Calls the camera catchup and zoom functions to update the cameras positioning
-    public void update(){
-        if (X_position != playerX || Y_position != playerY){
-            catchup();
-            boundary_check();
+    public void update(float delta, Vector2 player_pos){
+        if (position.x != player_pos.x || position.y != player_pos.y){
+            catchup(delta, player_pos);
+            boundary_check(player_pos);
         }
-        zoom();
-        camera.position.set(X_position, Y_position, 0);
+        zoom(delta);
+        camera.position.set(position.x, position.y, 0);
         camera.update();
     }
 
     // Makes sure that the camera stays within a set distance of the player to prevent them going off screen
-    private void boundary_check(){
-        if (X_position > playerX + player_bound){
-            X_position = playerX + player_bound;
+    private void boundary_check(Vector2 player_pos){
+        if (position.x > player_pos.x + player_bound){
+            position.x = player_pos.x + player_bound;
         }
-        else if (X_position < playerX - player_bound){
-            X_position = playerX - player_bound;
+        else if (position.x < player_pos.x - player_bound){
+            position.x = player_pos.x - player_bound;
         }
 
-        if (Y_position > playerY + player_bound){
-            Y_position = playerY + player_bound;
+        if (position.y > player_pos.y + player_bound){
+            position.y = player_pos.y + player_bound;
         }
-        else if (Y_position < playerY - player_bound){
-            Y_position = playerY - player_bound;
+        else if (position.y < player_pos.y - player_bound){
+            position.y = player_pos.y - player_bound;
         }
     }
 
     //slowly moves the camera to be centered on the player
-    private void catchup(){
-        double X_move = ((playerX - X_position) * 0.2) * deltaTime;
-        double Y_move = ((playerY - Y_position) * 0.2) * deltaTime;
+    private void catchup(float delta, Vector2 player_pos){
+        double X_move = ((player_pos.y - position.x) * 0.2) * delta;
+        double Y_move = ((player_pos.y - position.y) * 0.2) * delta;
         
         if (X_move > 0 && X_move < 1){
             X_move = 1;
@@ -70,31 +66,31 @@ public class CameraManager {
         }
         
         
-        int new_X = X_position + (int)Math.round(X_move);
-        int new_Y = Y_position + (int)Math.round(Y_move);
+        float new_X = (float) (position.x + X_move);
+        float new_Y = (float) (position.y + Y_move);
 
-        if ((X_position < playerX && new_X > playerX) || (X_position > playerX && new_X < playerX)){
-            X_position = playerX;
+        if ((position.x < player_pos.x && new_X > player_pos.x) || (position.x > player_pos.x && new_X < player_pos.x)){
+            position.x = player_pos.x;
         }
         else{
-            X_position = new_X;
+            position.x = new_X;
         }
 
-        if ((Y_position < playerY && new_Y > playerY) || (Y_position > playerY && new_Y < playerY)){
-            Y_position = playerY;
+        if ((position.y < player_pos.y && new_Y > player_pos.y) || (position.y > player_pos.y && new_Y < player_pos.y)){
+            position.y = player_pos.y;
         }
         else{
-            Y_position = new_Y;
+            position.y = new_Y;
         }
     }
 
     // Allows the camera to be zoomed in or out
-    private void zoom(){
+    private void zoom(float delta){
         if (Gdx.input.isKeyPressed(Keys.PLUS)){
-            camera.zoom += camera.zoom*zoom_mult*deltaTime;
+            camera.zoom += camera.zoom*zoom_mult*delta;
         }
         else if (Gdx.input.isKeyPressed(Keys.MINUS)){
-            camera.zoom -= camera.zoom*zoom_mult*deltaTime;
+            camera.zoom -= camera.zoom*zoom_mult*delta;
         }
 
     }
