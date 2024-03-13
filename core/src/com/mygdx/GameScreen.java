@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package com.mygdx;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
@@ -35,8 +35,8 @@ public class GameScreen extends ScreenAdapter {
         float characterY = prefs.getFloat("characterY", 300);
         Vector2 characterPosition = new Vector2(characterX,characterY);
 
-        Texture playerTexture = new Texture(Gdx.files.internal("LightBandit_Idle_0.png"));
-        player = new Player(new Texture("LightBandit_Idle_0.png"), characterPosition.x, characterPosition.y, 2);
+        Texture playerTexture = new Texture(Gdx.files.internal("down_idle_1.png"));
+        player = new Player(new Texture("down_idle_1.png"), characterPosition.x, characterPosition.y, 2);
         player.create();
 
 
