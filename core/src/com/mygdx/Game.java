@@ -1,31 +1,31 @@
 package com.mygdx;
 
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
-
-public class game extends Game {
-	//variables
-	public Skin skin;
-
+public class Game extends ApplicationAdapter {
+	SpriteBatch batch;
+	Texture img;
+	
+	@Override
+	public void create () {
+		batch = new SpriteBatch();
+		img = new Texture("badlogic.jpg");
+	}
 
 	@Override
-	public void create() {
-
-		//skins
-		skin = new Skin();
-		skin.addRegions(new TextureAtlas(Gdx.files.internal("metal/skin/metal-ui.atlas")));
-		skin.add("font", new BitmapFont(Gdx.files.internal("metal/raw/font-export.fnt")));
-		skin.load(Gdx.files.internal("metal/skin/metal-ui.json"));
-		//setting screen to menu initially
-		setScreen(new MenuScreen(this, skin));
-
-
+	public void render () {
+		ScreenUtils.clear(1, 0, 0, 1);
+		batch.begin();
+		batch.draw(img, 0, 0);
+		batch.end();
+	}
+	
+	@Override
+	public void dispose () {
+		batch.dispose();
+		img.dispose();
 	}
 }
