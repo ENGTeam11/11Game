@@ -9,7 +9,7 @@
  <tileset firstgid="19334" source="tilesets/house_doors.tsx"/>
  <tileset firstgid="20838" source="tilesets/modern_interiors.tsx"/>
  <tileset firstgid="22262" source="tilesets/restaurant_walls.tsx"/>
- <tileset firstgid="22944" source="tilesets/SmallBurg_outside_assets.tsj"/>
+ <tileset firstgid="22944" source="tilesets/SmallBurg_outside_assets.tsx"/>
  <group id="35" name="terrain" locked="1">
   <layer id="9" name="base" width="30" height="35" locked="1">
    <data encoding="csv">
