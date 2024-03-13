@@ -24,20 +24,19 @@ public class Player {
     private float speed;
 
     //movement variables
-    private boolean isIdle;
     private boolean isMovingLeft;
     private boolean isMovingRight;
     private boolean isMovingUp;
     private boolean isMovingDown;
 
-
+    // creating players starting variables used in gamescreen class
     public Player(Texture texture, float x, float y, float speed){
         this.texture = texture;
         this.position = new Vector2(x, y);
         this.speed = speed;
     }
 
-
+    // initialising animations of character within create method
     public void create(){
         TextureAtlas allAnimations = new TextureAtlas(Gdx.files.internal("allAnimationsAtlas.atlas"));
 
@@ -69,9 +68,11 @@ public class Player {
 
     public void render(float delta){
         elapsed_time += delta;
+
+        //position debugging
         System.out.println("Player position: " + position);
 
-
+        // setting animation booleans to match movement
         Animation<TextureRegion> animation = idle;
         if (isMovingRight){
             animation = runRight;
@@ -85,11 +86,12 @@ public class Player {
         if (isMovingUp){
             animation = runUp;
         }
-
+        // looping animation
         TextureRegion currentFrame = animation.getKeyFrame(elapsed_time, true);
 
 
         batch.begin();
+        // Change 0.7f to what scale you like
         batch.draw(currentFrame, position.x, position.y, currentFrame.getRegionWidth() / 0.7f, currentFrame.getRegionHeight() / 0.7f);
         batch.end();
     }
@@ -101,7 +103,7 @@ public class Player {
         texture.dispose();
     }
 
-    //moving boolean statements
+    //moving boolean statements for animations and the position calculations
     public void moveUp(){
         position.y += speed;
         isMovingUp = true;
@@ -122,6 +124,7 @@ public class Player {
         isMovingRight = true;
     }
 
+    // resetting animation booleans when movement has stopped etc
     public void stopMovingUp(){
         isMovingUp = false;
     }
