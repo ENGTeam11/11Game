@@ -26,6 +26,7 @@ public class CameraManager {
         }
         zoom(delta);
         camera.position.set(position.x, position.y, 0);
+        
         camera.update();
     }
 

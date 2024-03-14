@@ -2,8 +2,10 @@ package com.mygdx.pages;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -16,8 +18,9 @@ public class GameScreen implements Screen{
     private Project game;
     private Stage stage;
     private Rectangle test;
-    private CameraManager cameraHandler;
-    Camera camera;
+    protected CameraManager cameraHandler;
+    protected OrthographicCamera camera;
+    
     public GameScreen(Project game){
         this.game = game;
     }
@@ -27,7 +30,8 @@ public class GameScreen implements Screen{
         //Set up stage for game screen
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
-        cameraHandler = new CameraManager(null);
+        Vector2 startPos = new Vector2(0, 0);
+        cameraHandler = new CameraManager(startPos);
         camera = cameraHandler.camera;
 
         test = new Rectangle(0,0,50,50);
@@ -40,12 +44,17 @@ public class GameScreen implements Screen{
         ScreenUtils.clear(0, 0, 0.2f, 1);
         test.x++;
         test.y++;
-        cameraHandler.update(delta, null);
+        
+        Vector2 position = new Vector2(test.x, test.y);
+        cameraHandler.update(delta, position);
+        camera.update();
+        System.out.println(camera.position);
         game.batch.begin();
         game.batch.end();
         game.shape.begin(ShapeType.Line);
         game.shape.rect(test.x,test.y,test.width,test.height);
         game.shape.end();
+        
     }
 
     @Override
