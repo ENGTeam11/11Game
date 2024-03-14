@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package com.mygdx;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -20,8 +20,11 @@ public class Player {
     private Animation<TextureRegion> runUp;
     private Animation<TextureRegion> runDown;
     private SpriteBatch batch;
-    private Vector2 position;
+    public Vector2 position;
     private float speed;
+
+    //
+
 
     //movement variables
     private boolean isMovingLeft;
@@ -34,6 +37,7 @@ public class Player {
         this.texture = texture;
         this.position = new Vector2(x, y);
         this.speed = speed;
+
     }
 
     // initialising animations of character within create method
@@ -41,7 +45,7 @@ public class Player {
         TextureAtlas allAnimations = new TextureAtlas(Gdx.files.internal("allAnimationsAtlas.atlas"));
 
         //idle TextureAtlas
-        idle = new Animation<>(FRAME_TIME, allAnimations.findRegions("left_idle"));
+        idle = new Animation<>(FRAME_TIME, allAnimations.findRegions("down_idle"));
         idle.setPlayMode(Animation.PlayMode.LOOP);
 
         //run right TextureAtlas
@@ -66,11 +70,14 @@ public class Player {
     }
 
 
-    public void render(float delta){
+    public void render(float delta, float windowWidth, float windowHeight){
         elapsed_time += delta;
 
+        float scaleX = windowWidth / 400f;
+        float scaleY = windowHeight / 300f;
+
         //position debugging
-        System.out.println("Player position: " + position);
+//        System.out.println("Player position: " + position);
 
         // setting animation booleans to match movement
         Animation<TextureRegion> animation = idle;
@@ -91,8 +98,7 @@ public class Player {
 
 
         batch.begin();
-        // Change 0.7f to what scale you like
-        batch.draw(currentFrame, position.x, position.y, currentFrame.getRegionWidth() / 0.7f, currentFrame.getRegionHeight() / 0.7f);
+        batch.draw(currentFrame, position.x,position.y, currentFrame.getRegionWidth() * scaleX, currentFrame.getRegionHeight() * scaleY);
         batch.end();
     }
 
