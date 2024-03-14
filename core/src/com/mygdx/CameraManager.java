@@ -15,7 +15,7 @@ public class CameraManager {
     public CameraManager(Vector2 player_pos){
         position = new Vector2(player_pos.x, player_pos.y);
         zoom_mult = 0.2f;
-        //player_bound = 400;
+        player_bound = 400;
         camera = new OrthographicCamera(position.x, position.y); 
     }
 
@@ -50,21 +50,21 @@ public class CameraManager {
 
     //slowly moves the camera to be centered on the player
     private void catchup(float delta, Vector2 player_pos){
-        double X_move = ((player_pos.y - position.x) * 0.2) * delta;
-        double Y_move = ((player_pos.y - position.y) * 0.2) * delta;
+        double X_move = ((player_pos.x - position.x) * 2) * delta;
+        double Y_move = ((player_pos.y - position.y) * 2) * delta;
         
-        if (X_move > 0 && X_move < 1){
-            X_move = 1;
+        if (X_move > 0 && X_move < 0.01){
+            X_move = 0.01;
         }
-        else if (X_move < 0 && X_move > -1){
-            X_move = -1;
+        else if (X_move < 0 && X_move > -0.01){
+            X_move = -0.01;
         }
 
-        if (Y_move > 0 && Y_move < 1){
-            Y_move = 1;
+        if (Y_move > 0 && Y_move < 0.01){
+            Y_move = 0.01;
         }
-        if (Y_move < 0 && Y_move > -1){
-            Y_move = -1;
+        if (Y_move < 0 && Y_move > -0.01){
+            Y_move = -0.01;
         }
         
         
