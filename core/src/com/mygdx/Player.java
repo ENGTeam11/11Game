@@ -101,7 +101,6 @@ public class Player {
         batch.begin();
         batch.draw(currentFrame, position.x,position.y, currentFrame.getRegionWidth() * scaleX, currentFrame.getRegionHeight() * scaleY);
         batch.end();
-        System.out.println(position);
     }
 
 

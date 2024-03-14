@@ -58,11 +58,7 @@ public class GameScreen extends ScreenAdapter {
         gameMap.update(delta);
 
         Vector2 characterPosition = getCharacterPosition();
-        System.out.println("charpos");
-        System.out.println(characterPosition);
         cameraHandler.update(delta, characterPosition);  
-        System.out.println("cam");
-        System.out.println(cameraHandler.position);
         batch.setProjectionMatrix(camera.combined);
         
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
