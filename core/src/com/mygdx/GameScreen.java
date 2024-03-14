@@ -11,7 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 public class GameScreen extends ScreenAdapter {
     private Game game;
     private Skin skin;
-    private OrthographicCamera camera;
+    protected CameraManager cameraHandler;
+    protected OrthographicCamera camera;
     private SpriteBatch batch;
     private Character character;
     private Player player;
@@ -27,14 +28,16 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void show() {
         batch = new SpriteBatch();
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         prefs = Gdx.app.getPreferences("game_prefs");
 
         float characterX = prefs.getFloat("characterX", 400);
         float characterY = prefs.getFloat("characterY", 300);
         Vector2 characterPosition = new Vector2(characterX,characterY);
+
+        cameraHandler = new CameraManager(characterPosition);
+        camera = cameraHandler.camera;
+        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         Texture playerTexture = new Texture(Gdx.files.internal("down_idle_1.png"));
         player = new Player(new Texture("down_idle_1.png"), characterPosition.x, characterPosition.y, 2);
@@ -50,20 +53,26 @@ public class GameScreen extends ScreenAdapter {
             saveCharacterPosition();
             game.setScreen(new inGameMenu(game, skin));
         }
+        handleInput();
+        
         gameMap.update(delta);
 
+        Vector2 characterPosition = getCharacterPosition();
+        System.out.println("charpos");
+        System.out.println(characterPosition);
+        cameraHandler.update(delta, characterPosition);  
+        System.out.println("cam");
+        System.out.println(cameraHandler.position);
+        batch.setProjectionMatrix(camera.combined);
+        
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        camera.update();
-
+        
         gameMap.render(camera);
-        batch.setProjectionMatrix(camera.combined);
+        player.render(delta, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
 
-        Vector2 characterPosition = getCharacterPosition();
 
-        player.render(delta, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
-        handleInput();
+        
     }
 
     private void handleInput() {

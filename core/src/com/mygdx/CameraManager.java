@@ -15,6 +15,7 @@ public class CameraManager {
     public CameraManager(Vector2 player_pos){
         position = new Vector2(player_pos.x, player_pos.y);
         zoom_mult = 0.2f;
+        //player_bound = 400;
         camera = new OrthographicCamera(position.x, position.y); 
     }
 
@@ -56,7 +57,7 @@ public class CameraManager {
             X_move = 1;
         }
         else if (X_move < 0 && X_move > -1){
-            X_move = -2;
+            X_move = -1;
         }
 
         if (Y_move > 0 && Y_move < 1){
@@ -87,7 +88,7 @@ public class CameraManager {
 
     // Allows the camera to be zoomed in or out
     private void zoom(float delta){
-        if (Gdx.input.isKeyPressed(Keys.PLUS)){
+        if (Gdx.input.isKeyPressed(Keys.EQUALS)){
             camera.zoom += camera.zoom*zoom_mult*delta;
         }
         else if (Gdx.input.isKeyPressed(Keys.MINUS)){

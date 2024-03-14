@@ -1,6 +1,7 @@
 package com.mygdx;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -70,11 +71,11 @@ public class Player {
     }
 
 
-    public void render(float delta, float windowWidth, float windowHeight){
+    public void render(float delta, float windowWidth, float windowHeight, OrthographicCamera cam){
         elapsed_time += delta;
 
-        float scaleX = windowWidth / 400f;
-        float scaleY = windowHeight / 300f;
+        float scaleX = windowWidth / 200f;
+        float scaleY = windowHeight / 150f;
 
         //position debugging
 //        System.out.println("Player position: " + position);
@@ -96,10 +97,11 @@ public class Player {
         // looping animation
         TextureRegion currentFrame = animation.getKeyFrame(elapsed_time, true);
 
-
+        batch.setProjectionMatrix(cam.combined);
         batch.begin();
         batch.draw(currentFrame, position.x,position.y, currentFrame.getRegionWidth() * scaleX, currentFrame.getRegionHeight() * scaleY);
         batch.end();
+        System.out.println(position);
     }
 
 
