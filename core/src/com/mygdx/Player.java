@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -27,6 +28,7 @@ public class Player {
     private GameMap gameMap;
     private float character_width = 13;
     private float character_height = 19;
+    private ShapeRenderer shapeRenderer;
     //
 
 
@@ -42,7 +44,7 @@ public class Player {
         this.position = new Vector2(x, y);
         this.speed = speed;
         this.gameMap = gameMap;
-
+        shapeRenderer = new ShapeRenderer();
     }
 
     // initialising animations of character within create method

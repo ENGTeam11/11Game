@@ -13,18 +13,16 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-import java.util.HashMap;
-import java.util.Map;
 
 public class GameMap {
     private TiledMap tiledMap;
     private OrthogonalTiledMapRenderer renderer;
     private float timeSinceLastToggle = 0;
-    private Map<String, String[]> doorToRoofMap = new HashMap<>();
+    private float scale = 1 / 0.18f;
 
     public GameMap(String mapPath) {
         tiledMap = new TmxMapLoader().load(mapPath);
-        renderer = new OrthogonalTiledMapRenderer(tiledMap, 1 / 0.18f); // Adjust the unit scale to match your game
+        renderer = new OrthogonalTiledMapRenderer(tiledMap, scale); // Adjust the unit scale to match your game
     }
 
     public void render(OrthographicCamera camera) {
@@ -59,7 +57,8 @@ public class GameMap {
             for (MapObject object : objects) {
                 if (object instanceof RectangleMapObject) {
                     Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
-                    if (Intersector.overlaps(rectangle, futureBounds)) {
+                    Rectangle scaledRectangle = new Rectangle(rectangle.x * scale, rectangle.y * scale, rectangle.width * scale, rectangle.height * scale);
+                    if (Intersector.overlaps(scaledRectangle, futureBounds)) {
                         return false;
                     }
                 }
@@ -71,5 +70,6 @@ public class GameMap {
     public void dispose() {
         tiledMap.dispose();
         renderer.dispose();
+
     }
 }
