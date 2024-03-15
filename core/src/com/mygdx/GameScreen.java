@@ -42,7 +42,7 @@ public class GameScreen extends ScreenAdapter {
         camera = cameraHandler.camera;
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-        player = new Player(new Texture("down_idle_1.png"), characterX, characterY, 2, gameMap);
+        player = new Player(new Texture("down_idle_1.png"), characterPosition.x, characterPosition.y, 2, gameMap);
         player.create();
 
 
