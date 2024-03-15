@@ -33,9 +33,7 @@ public class GameScreen extends ScreenAdapter {
 
         gameMap = new GameMap("maps/map.tmx");
 
-        float characterX = prefs.getFloat("characterX", 400);
-        float characterY = prefs.getFloat("characterY", 300);
-        Vector2 characterPosition = new Vector2(characterX,characterY);
+        Vector2 characterPosition = gameMap.getSpawnPoint();
 
         cameraHandler = new CameraManager(characterPosition);
         camera = cameraHandler.camera;

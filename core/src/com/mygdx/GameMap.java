@@ -67,6 +67,18 @@ public class GameMap {
         return true;
     }
 
+    public Vector2 getSpawnPoint() {
+        MapLayer layer = tiledMap.getLayers().get("spawn_point");
+        if (layer != null) {
+            RectangleMapObject object = layer.getObjects().getByType(RectangleMapObject.class).first();
+            if (object != null) {
+                Rectangle spawn_rectangle = object.getRectangle();
+                return new Vector2(spawn_rectangle.x * scale, spawn_rectangle.y * scale);
+            }
+        }
+        return new Vector2(1000, 800);
+    }
+
     public void dispose() {
         tiledMap.dispose();
         renderer.dispose();
