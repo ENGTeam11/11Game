@@ -33,14 +33,16 @@ public class GameScreen extends ScreenAdapter {
 
         gameMap = new GameMap("maps/map.tmx");
 
-        Vector2 characterPosition = gameMap.getSpawnPoint();
+        Vector2 spawnPoint = gameMap.getSpawnPoint();
+        float characterX = prefs.getFloat("characterX", spawnPoint.x);
+        float characterY = prefs.getFloat("characterY", spawnPoint.y);
+        Vector2 characterPosition = new Vector2(characterX, characterY);
 
         cameraHandler = new CameraManager(characterPosition);
         camera = cameraHandler.camera;
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-        Texture playerTexture = new Texture(Gdx.files.internal("down_idle_1.png"));
-        player = new Player(new Texture("down_idle_1.png"), characterPosition.x, characterPosition.y, 2, gameMap);
+        player = new Player(new Texture("down_idle_1.png"), characterX, characterY, 2, gameMap);
         player.create();
 
 
