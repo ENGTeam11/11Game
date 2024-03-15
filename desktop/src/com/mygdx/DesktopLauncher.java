@@ -12,8 +12,6 @@ public class DesktopLauncher {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
 		config.setTitle("MyGame");
-		config.setWindowIcon(Files.FileType.Internal, "icon/icon_16.png");
-		config.setWindowIcon(Files.FileType.Internal, "icon/icon_32.png");
 		config.setWindowIcon(Files.FileType.Internal, "icon/icon_128.png");
 		new Lwjgl3Application(new game(), config);
 
