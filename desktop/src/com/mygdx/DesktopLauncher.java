@@ -1,8 +1,10 @@
 package com.mygdx;
 
+import com.badlogic.gdx.Files;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.mygdx.Project;
+
 
 // Please note that on macOS your application needs to be started with the -XstartOnFirstThread JVM argument
 public class DesktopLauncher {
@@ -10,6 +12,10 @@ public class DesktopLauncher {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
 		config.setTitle("MyGame");
-		new Lwjgl3Application(new Project(), config);
+		config.setWindowIcon(Files.FileType.Internal, "icon/icon_16.png");
+		config.setWindowIcon(Files.FileType.Internal, "icon/icon_32.png");
+		config.setWindowIcon(Files.FileType.Internal, "icon/icon_128.png");
+		new Lwjgl3Application(new game(), config);
+
 	}
 }
