@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="30" height="35" tilewidth="16" tileheight="16" infinite="0" nextlayerid="112" nextobjectid="131">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="30" height="35" tilewidth="16" tileheight="16" infinite="0" nextlayerid="113" nextobjectid="132">
  <tileset firstgid="1" source="tilesets/Terrain.tsx"/>
  <tileset firstgid="1513" source="tilesets/house_walls.tsx"/>
  <tileset firstgid="4695" source="tilesets/house_assets.tsx"/>
@@ -11,7 +11,7 @@
  <tileset firstgid="22262" source="tilesets/restaurant_walls.tsx"/>
  <tileset firstgid="22944" source="tilesets/SmallBurg_outside_assets.tsx"/>
  <tileset firstgid="23872" source="tilesets/TinyRanch_Animals.tsx"/>
- <group id="35" name="terrain">
+ <group id="35" name="terrain" locked="1">
   <layer id="9" name="base" width="30" height="35" locked="1">
    <data encoding="csv">
 885,885,885,885,885,885,885,885,885,885,885,885,885,885,885,885,885,885,885,885,885,885,885,885,885,885,885,885,885,885,
@@ -2828,5 +2828,8 @@
   <object id="128" x="403" y="320" width="7" height="12"/>
   <object id="129" x="204" y="243" width="7" height="12"/>
   <object id="130" x="300" y="227" width="7" height="12"/>
+ </objectgroup>
+ <objectgroup id="112" name="spawn_point" locked="1">
+  <object id="131" x="352" y="272" width="16" height="16"/>
  </objectgroup>
 </map>

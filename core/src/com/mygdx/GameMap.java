@@ -2,10 +2,17 @@ package com.mygdx;
 
 import com.badlogic.gdx.maps.MapGroupLayer;
 import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,7 +21,6 @@ public class GameMap {
     private OrthogonalTiledMapRenderer renderer;
     private float timeSinceLastToggle = 0;
     private Map<String, String[]> doorToRoofMap = new HashMap<>();
-    private final float proximityThreshold = 5f; // Define a threshold for how close the player needs to be to interact
 
     public GameMap(String mapPath) {
         tiledMap = new TmxMapLoader().load(mapPath);
@@ -49,7 +55,24 @@ public class GameMap {
             }
         }
     }
-    
+    public boolean canPlayerMove(Vector2 newPosition, float width, float height) {
+        Rectangle futureBounds = new Rectangle(newPosition.x, newPosition.y, width, height);
+        MapLayer collisionObjectLayer = tiledMap.getLayers().get("collision_layer");
+        if (collisionObjectLayer != null) {
+            MapObjects objects = collisionObjectLayer.getObjects();
+
+            for (MapObject object : objects) {
+                if (object instanceof RectangleMapObject) {
+                    Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+                    if (Intersector.overlaps(rectangle, futureBounds)) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
     public void dispose() {
         tiledMap.dispose();
         renderer.dispose();

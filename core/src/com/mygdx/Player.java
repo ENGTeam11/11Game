@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 
@@ -23,7 +24,9 @@ public class Player {
     private SpriteBatch batch;
     public Vector2 position;
     private float speed;
-
+    private GameMap gameMap;
+    private float character_width = 13;
+    private float character_height = 19;
     //
 
 
@@ -34,10 +37,11 @@ public class Player {
     private boolean isMovingDown;
 
     // creating players starting variables used in gamescreen class
-    public Player(Texture texture, float x, float y, float speed){
+    public Player(Texture texture, float x, float y, float speed, GameMap gameMap){
         this.texture = texture;
         this.position = new Vector2(x, y);
         this.speed = speed;
+        this.gameMap = gameMap;
 
     }
 
@@ -109,27 +113,45 @@ public class Player {
         batch.dispose();
         texture.dispose();
     }
-
+    public float getWidth() {
+        return this.character_width;
+    }
+    public float getHeight() {
+        return this.character_height;
+    }
     //moving boolean statements for animations and the position calculations
     public void moveUp(){
-        position.y += speed;
-        isMovingUp = true;
+        Vector2 newPosition = new Vector2(position.x, position.y + speed);
+        if (!gameMap.canPlayerMove(newPosition, getWidth(), getHeight())) {
+            position = newPosition;
+            isMovingUp = true;
+        }
     }
 
-    public void moveDown(){
-        position.y -= speed;
-        isMovingDown = true;
+    public void moveDown() {
+        Vector2 newPosition = new Vector2(position.x, position.y - speed);
+        if (!gameMap.canPlayerMove(newPosition, getWidth(), getHeight())) {
+            position = newPosition;
+            isMovingDown = true;
+        }
     }
 
-    public void moveLeft(){
-        position.x -= speed;
-        isMovingLeft = true;
+    public void moveLeft() {
+        Vector2 newPosition = new Vector2(position.x - speed, position.y);
+        if (!gameMap.canPlayerMove(newPosition, getWidth(), getHeight())) {
+            position = newPosition;
+            isMovingLeft = true;
+        }
     }
 
-    public void moveRight(){
-        position.x += speed;
-        isMovingRight = true;
+    public void moveRight() {
+        Vector2 newPosition = new Vector2(position.x + speed, position.y);
+        if (!gameMap.canPlayerMove(newPosition, getWidth(), getHeight())) {
+            position = newPosition;
+            isMovingRight = true;
+        }
     }
+
 
     // resetting animation booleans when movement has stopped etc
     public void stopMovingUp(){

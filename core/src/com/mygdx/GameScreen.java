@@ -31,6 +31,8 @@ public class GameScreen extends ScreenAdapter {
 
         prefs = Gdx.app.getPreferences("game_prefs");
 
+        gameMap = new GameMap("maps/map.tmx");
+
         float characterX = prefs.getFloat("characterX", 400);
         float characterY = prefs.getFloat("characterY", 300);
         Vector2 characterPosition = new Vector2(characterX,characterY);
@@ -40,10 +42,10 @@ public class GameScreen extends ScreenAdapter {
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         Texture playerTexture = new Texture(Gdx.files.internal("down_idle_1.png"));
-        player = new Player(new Texture("down_idle_1.png"), characterPosition.x, characterPosition.y, 2);
+        player = new Player(new Texture("down_idle_1.png"), characterPosition.x, characterPosition.y, 2, gameMap);
         player.create();
 
-        gameMap = new GameMap("maps/map.tmx");
+
 
     }
 
@@ -54,21 +56,21 @@ public class GameScreen extends ScreenAdapter {
             game.setScreen(new inGameMenu(game, skin));
         }
         handleInput();
-        
+
         gameMap.update(delta);
 
         Vector2 characterPosition = getCharacterPosition();
-        cameraHandler.update(delta, characterPosition);  
+        cameraHandler.update(delta, characterPosition);
         batch.setProjectionMatrix(camera.combined);
-        
+
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        
+
         gameMap.render(camera);
         player.render(delta, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
 
 
-        
+
     }
 
     private void handleInput() {
