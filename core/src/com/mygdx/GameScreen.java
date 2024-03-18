@@ -6,16 +6,35 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 public class GameScreen extends ScreenAdapter {
     private Game game;
     private Skin skin;
+
+    private Table studyTable;
+    private Table relaxTable;
+    private Table sleepTable;
+    private Table eatTable;
+    private Table insufficientTable;
+
+
     protected CameraManager cameraHandler;
     protected OrthographicCamera camera;
     private SpriteBatch batch;
     private Character character;
     private Player player;
+    private Stage stage;
     private Vector2 characterPosition;
     private Preferences prefs;
     private GameMap gameMap;
@@ -31,6 +50,14 @@ public class GameScreen extends ScreenAdapter {
         batch = new SpriteBatch();
 
         prefs = Gdx.app.getPreferences("game_prefs");
+
+        stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        createStudy();
+        createRelax();
+        createSleep();
+        createEat();
+
+        stage.addActor(studyTable);
 
         gameMap = new GameMap("maps/map.tmx");
 
@@ -48,7 +75,7 @@ public class GameScreen extends ScreenAdapter {
 
         energyMeter = new EnergyMeter();
 
-
+        Gdx.input.setInputProcessor(stage);
 
     }
 
@@ -72,6 +99,9 @@ public class GameScreen extends ScreenAdapter {
         gameMap.render(camera);
         player.render(delta, camera);
         energyMeter.render();
+
+        stage.act(delta);
+	    stage.draw();
 
 
 
@@ -141,5 +171,187 @@ public class GameScreen extends ScreenAdapter {
         player.dispose();
         gameMap.dispose();
         // Dispose other resources here
+    }
+
+
+    private void createStudy(){
+        //used to create the study menu
+        studyTable = new Table();
+        Label studyTitle = new Label("Study for how many hours?", skin);
+        Slider studyTime = new Slider(1, 5, 1, false ,skin);
+        TextButton studyConfirm = new TextButton("Confirm", skin);
+        TextButton studyCancel = new TextButton("Cancel", skin);
+        Label studyVal = new Label(Float.toString(studyTime.getValue()), skin);
+        Label studyCost = new Label("Cost: " + Float.toString(studyTime.getValue() * 15), skin);
+
+        studyTable.add(studyTitle);
+        studyTable.row();
+        studyTable.add(studyTime);
+        studyTable.add(studyVal);
+        studyTable.row();
+        studyTable.add(studyCost);
+        studyTable.row();
+        studyTable.add(studyConfirm);
+        studyTable.add(studyCancel);
+        studyTable.setFillParent(true);
+        studyTable.center();
+
+        studyCancel.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                studyTable.remove();
+            }
+        });
+
+        studyConfirm.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                int cost = (int) (15 * studyTime.getValue());
+                if(cost <= energyMeter.getEnergy()){
+                    energyMeter.loseEnergy(cost);
+                studyTable.remove();
+                }
+                else{
+                    //stage.addActor
+                    studyTable.remove();
+                }
+            }
+        });
+
+        studyTime.addListener(new ChangeListener(){
+            public void changed(ChangeEvent event, Actor actor){
+                studyVal.setText(Float.toString(studyTime.getValue()));
+                studyCost.setText("Cost: " + Float.toString(studyTime.getValue() * 15));
+            }
+        });
+     
+    }
+
+    private void createRelax(){
+        relaxTable = new Table();
+        Label relaxTitle = new Label("relax for how many hours?", skin);
+        Slider relaxTime = new Slider(1, 5, 1, false ,skin);
+        TextButton relaxConfirm = new TextButton("Confirm", skin);
+        TextButton relaxCancel = new TextButton("Cancel", skin);
+        Label relaxVal = new Label(Float.toString(relaxTime.getValue()), skin);
+        Label relaxCost = new Label("Cost: " + Float.toString(relaxTime.getValue() * 7), skin);
+
+        relaxTable.add(relaxTitle);
+        relaxTable.row();
+        relaxTable.add(relaxTime);
+        relaxTable.add(relaxVal);
+        relaxTable.row();
+        relaxTable.add(relaxCost);
+        relaxTable.row();
+        relaxTable.add(relaxConfirm);
+        relaxTable.add(relaxCancel);
+        relaxTable.setFillParent(true);
+        relaxTable.center();
+
+        relaxCancel.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                relaxTable.remove();
+            }
+        });
+
+        relaxConfirm.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                int cost = (int) (7 * relaxTime.getValue());
+                if(cost <= energyMeter.getEnergy()){
+                    energyMeter.loseEnergy(cost);
+                    relaxTable.remove();
+                }
+                else{
+                    //stage.addActor
+                    relaxTable.remove();
+                }
+            }
+        });
+
+        relaxTime.addListener(new ChangeListener(){
+            public void changed(ChangeEvent event, Actor actor){
+                relaxVal.setText(Float.toString(relaxTime.getValue()));
+                relaxCost.setText("Cost: " + Float.toString(relaxTime.getValue() * 7));
+            }
+        });
+     
+    }
+
+    private void createSleep(){
+        sleepTable = new Table();
+        Label sleepTitle = new Label("Sleep until next day?", skin);
+        TextButton sleepYes = new TextButton("Yes", skin);
+        TextButton sleepNo = new TextButton("No", skin);
+        
+        sleepTable.add(sleepTitle);
+        sleepTable.row();
+        sleepTable.add(sleepYes);
+        sleepTable.add(sleepNo);
+        sleepTable.setFillParent(true);
+        sleepTable.center();
+
+        sleepYes.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // code to advance day and set time back to start
+                sleepTable.remove();
+            } 
+        });
+
+        sleepNo.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                sleepTable.remove();
+            } 
+        });
+    }
+
+    private void createEat(){
+        eatTable = new Table();
+        Label eatTitle = new Label("Eat?", skin);
+        TextButton eatYes = new TextButton("Yes", skin);
+        TextButton eatNo = new TextButton("No", skin);
+
+        eatTable.add(eatTitle);
+        eatTable.row();
+        eatTable.add(eatYes);
+        eatTable.add(eatNo);
+        eatTable.setFillParent(true);
+        eatTable.center();
+
+        eatYes.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // code to advance time and increase eat count
+                eatTable.remove();
+            } 
+        });
+
+        eatNo.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                eatTable.remove();
+            } 
+        });
+    }
+
+    private void createInsufficient(){
+        insufficientTable = new Table();
+        Label insufficientTitle = new Label("Not enough energy", skin);
+        TextButton insufficientOk = new TextButton("Ok", skin);
+
+        insufficientTable.add(insufficientTitle);
+        insufficientTable.add(insufficientOk);
+        insufficientTable.setFillParent(true);
+        insufficientTable.center();
+        
+        insufficientOk.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                insufficientTable.remove();
+            } 
+        });
     }
 }
