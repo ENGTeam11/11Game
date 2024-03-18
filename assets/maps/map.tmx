@@ -2714,7 +2714,7 @@
 0,0,0,0,0,0,0,0,23237,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="110" name="collision_layer" locked="1">
+ <objectgroup id="110" name="collision_layer">
   <properties>
    <property name="obstacle" type="bool" value="true"/>
   </properties>
@@ -2831,7 +2831,7 @@
   <object id="131" x="349" y="413" width="2" height="58"/>
   <object id="132" x="370" y="414" width="4" height="57"/>
   <object id="133" x="351" y="469" width="19" height="5"/>
-  <object id="135" x="480" y="0" height="560"/>
+  <object id="135" x="475" y="0" width="5" height="560"/>
   <object id="136" x="0" y="0" width="480"/>
   <object id="137" x="0" y="0" height="560"/>
   <object id="138" x="0" y="560" width="480"/>
