@@ -56,8 +56,8 @@ public class GameScreen extends ScreenAdapter {
         createRelax();
         createSleep();
         createEat();
+        createInsufficient();
 
-        stage.addActor(studyTable);
 
         gameMap = new GameMap("maps/map.tmx");
 
