@@ -36,7 +36,7 @@ public class GameMap {
 
     /**
      * Renders the map onto the provided camera's view.
-     * @param camera The OrthographicCamera through which the map is viewed.
+     * @param camera The camera through which the map is viewed.
      */
     public void render(OrthographicCamera camera) {
         renderer.setView(camera);
@@ -44,7 +44,8 @@ public class GameMap {
     }
 
     /**
-     * Updates the map state, including layer visibility toggling based on a timer.
+     * Updates the map state
+     * including layer visibility toggling based on a timer for water animation
      * @param delta The time elapsed since the last frame in seconds.
      */
     public void update(float delta) {
@@ -73,7 +74,7 @@ public class GameMap {
 
     /**
      * Determines if a player can move to a specified position based on collision layers.
-     * @param newPosition The proposed new position for the player.
+     * @param newPosition The proposed future position of the player.
      * @param width The width of the player's bounds.
      * @param height The height of the player's bounds.
      * @return true if the player can move to the newPosition without collisions; false otherwise.
