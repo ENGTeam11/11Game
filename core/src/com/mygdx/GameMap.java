@@ -16,8 +16,7 @@ import com.badlogic.gdx.math.Vector2;
 /**
  * GameMap is a class designed to manage the game's map using Tiled maps.
  * It facilitates rendering the map, handling layer visibility, player movement validations,
- * and providing spawn points based on the Tiled map properties. The class uses LibGDX's
- * tiled map support to load and manipulate Tiled Maps.
+ * and providing spawn points based on the Tiled map properties.
  */
 public class GameMap {
     private TiledMap tiledMap; //Holds the tiled map structure
