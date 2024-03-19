@@ -36,7 +36,7 @@ public class GameScreen extends ScreenAdapter {
     private Player player;
     private Stage stage;
     private Vector2 characterPosition;
-    private Preferences prefs;
+    public Preferences prefs;
     private GameMap gameMap;
     private EnergyMeter energyMeter;
 
