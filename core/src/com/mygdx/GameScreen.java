@@ -51,6 +51,7 @@ public class GameScreen extends ScreenAdapter {
 
         prefs = Gdx.app.getPreferences("game_prefs");
 
+        //create all the interaction menus and the stage they use to display
         stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         createStudy();
         createRelax();
@@ -174,8 +175,10 @@ public class GameScreen extends ScreenAdapter {
     }
 
 
+    /**
+     * creates the menu for studying
+     */
     private void createStudy(){
-        //used to create the study menu
         studyTable = new Table();
         Label studyTitle = new Label("Study for how many hours?", skin);
         Slider studyTime = new Slider(1, 5, 1, false ,skin);
@@ -227,6 +230,9 @@ public class GameScreen extends ScreenAdapter {
      
     }
 
+    /**
+     * creates the menu for recreational interactions
+     */
     private void createRelax(){
         relaxTable = new Table();
         Label relaxTitle = new Label("relax for how many hours?", skin);
@@ -279,7 +285,11 @@ public class GameScreen extends ScreenAdapter {
      
     }
 
+    /**
+     * creates the menu for sleeping
+     */
     private void createSleep(){
+        
         sleepTable = new Table();
         Label sleepTitle = new Label("Sleep until next day?", skin);
         TextButton sleepYes = new TextButton("Yes", skin);
@@ -308,6 +318,9 @@ public class GameScreen extends ScreenAdapter {
         });
     }
 
+    /**
+     * creates the menu for the eating interaction
+     */
     private void createEat(){
         eatTable = new Table();
         Label eatTitle = new Label("Eat?", skin);
@@ -337,6 +350,9 @@ public class GameScreen extends ScreenAdapter {
         });
     }
 
+    /**
+     * creates the popup for when there isnt enough energy for an activity
+     */
     private void createInsufficient(){
         insufficientTable = new Table();
         Label insufficientTitle = new Label("Not enough energy", skin);

@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 
+
 public class EnergyMeter {
     private int energy, max_energy, width;
     private Rectangle filled_bar, empty_bar;
@@ -21,6 +22,9 @@ public class EnergyMeter {
         shape = new ShapeRenderer();
     }
 
+    /**
+     * draws the energy bar
+     */
     public void render(){
         reposition();
 
@@ -46,13 +50,18 @@ public class EnergyMeter {
         return energy;
     }
 
+    /**
+     * used to subtract the energy required for an activity
+     * @param cost the amount of energy to subtract
+     */
     public void loseEnergy(int cost){
-        //used to subtract the energy required for an activity
         energy -= cost;
     }
 
+    /**
+     * calculates the portion of the bar that should be filled
+     */
     private Color calculateBar(){
-        // calculates the portion of the bar that should be filled
         Color colour;
         float multiple = (float) energy / max_energy;
         if (multiple <= 0.25){
@@ -68,9 +77,10 @@ public class EnergyMeter {
         return colour;
     }
 
-
+    /**
+     * makes sure the meter is in the correct position 
+     */
     private void reposition(){
-        //makes sure the meter is in the correct position 
         filled_bar.setY(Gdx.graphics.getHeight()-35);
         empty_bar.setY(Gdx.graphics.getHeight()-35);
     }
