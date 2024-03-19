@@ -24,6 +24,7 @@ public class GameMap {
     private OrthogonalTiledMapRenderer renderer; //Renderer fot the tiled map
     private float timeSinceLastToggle = 0; //Timer for toggling layer "water2" visibility
     private float scale = 1 / 0.18f; //Map scale
+    private boolean inHouse, inCS, inRestaurant; // checks for whether the roofs have already been toggled 
 
     /**
      * Constructor that initializes the GameMap with a specified map path.
@@ -32,6 +33,9 @@ public class GameMap {
     public GameMap(String mapPath) {
         tiledMap = new TmxMapLoader().load(mapPath);
         renderer = new OrthogonalTiledMapRenderer(tiledMap, scale);
+        inHouse = false;
+        inRestaurant = false;
+        inCS = false;
     }
 
     /**
@@ -112,6 +116,31 @@ public class GameMap {
             }
         }
         return new Vector2(1000, 800);
+    }
+
+    public void insideCheck(Vector2 Position, float width, float height){
+        //checks if in house
+        if((isInArea(Position, width, height, "house_layer") && !inHouse) || (!isInArea(Position, width, height, "house_layer") && inHouse)){
+            inHouse = !inHouse;
+            toggleLayerVisibility("house", "house_roof1");
+            toggleLayerVisibility("house", "house_roof2");
+            toggleLayerVisibility("house", "house_roof2");
+            toggleLayerVisibility("house", "house_roof2");           
+        }
+        
+        if((isInArea(Position, width, height, "restaurant_layer") && !inRestaurant) || (!isInArea(Position, width, height, "restaurant_layer") && inRestaurant)){
+            inRestaurant = !inRestaurant;
+            toggleLayerVisibility("restaurant", "res_roof1");
+            toggleLayerVisibility("restaurant", "res_roof2");
+            toggleLayerVisibility("restaurant", "res_outdoor");
+            toggleLayerVisibility("restaurant", "res_door_open");
+        }
+
+        if((isInArea(Position, width, height, "cs_layer") && !inCS) || (!isInArea(Position, width, height, "cs_layer") && inCS)){
+            inCS = !inCS;
+            toggleLayerVisibility("cs_building", "cs_roof1");
+            toggleLayerVisibility("cs_building", "cs_roof2");
+        }
     }
 
     /**

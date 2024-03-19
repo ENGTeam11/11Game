@@ -89,8 +89,10 @@ public class GameScreen extends ScreenAdapter {
         handleInput();
 
         gameMap.update(delta);
-
         Vector2 characterPosition = getCharacterPosition();
+        
+        gameMap.insideCheck(characterPosition, player.getWidth(), player.getHeight());
+        
         cameraHandler.update(delta, characterPosition);
         batch.setProjectionMatrix(camera.combined);
 
