@@ -121,7 +121,7 @@ public class Player {
     //moving boolean statements for animations and the position calculations
     public void moveUp(){
         Vector2 newPosition = new Vector2(position.x, position.y + speed);
-        if (gameMap.canPlayerMove(newPosition, getWidth(), getHeight())) {
+        if (! gameMap.isInArea(newPosition, getWidth(), getHeight(), "collision_layer")) {
             position = newPosition;
             isMovingUp = true;
         }
@@ -129,7 +129,7 @@ public class Player {
 
     public void moveDown() {
         Vector2 newPosition = new Vector2(position.x, position.y - speed);
-        if (gameMap.canPlayerMove(newPosition, getWidth(), getHeight())) {
+        if (! gameMap.isInArea(newPosition, getWidth(), getHeight(), "collision_layer")) {
             position = newPosition;
             isMovingDown = true;
         }
@@ -137,7 +137,7 @@ public class Player {
 
     public void moveLeft() {
         Vector2 newPosition = new Vector2(position.x - speed, position.y);
-        if (gameMap.canPlayerMove(newPosition, getWidth(), getHeight())) {
+        if (! gameMap.isInArea(newPosition, getWidth(), getHeight(), "collision_layer")) {
             position = newPosition;
             isMovingLeft = true;
         }
@@ -145,7 +145,7 @@ public class Player {
 
     public void moveRight() {
         Vector2 newPosition = new Vector2(position.x + speed, position.y);
-        if (gameMap.canPlayerMove(newPosition, getWidth(), getHeight())) {
+        if (! gameMap.isInArea(newPosition, getWidth(), getHeight(), "collision_layer")) {
             position = newPosition;
             isMovingRight = true;
         }

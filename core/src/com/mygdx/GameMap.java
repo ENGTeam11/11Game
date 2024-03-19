@@ -74,28 +74,28 @@ public class GameMap {
 
     /**
      * Determines if a player can move to a specified position based on collision layers.
-     * @param newPosition The proposed future position of the player.
+     * @param Position The proposed position of the player.
      * @param width The width of the player's bounds.
      * @param height The height of the player's bounds.
      * @return true if the player can move to the newPosition without collisions; false otherwise.
      */
-    public boolean canPlayerMove(Vector2 newPosition, float width, float height) {
-        Rectangle futureBounds = new Rectangle(newPosition.x, newPosition.y, width, height);
-        MapLayer collisionObjectLayer = tiledMap.getLayers().get("collision_layer");
-        if (collisionObjectLayer != null) {
-            MapObjects objects = collisionObjectLayer.getObjects();
+    public boolean isInArea(Vector2 Position, float width, float height, String layerName) {
+        Rectangle playerBounds = new Rectangle(Position.x, Position.y, width, height);
+        MapLayer ObjectLayer = tiledMap.getLayers().get(layerName);
+        if (ObjectLayer != null) {
+            MapObjects objects = ObjectLayer.getObjects();
 
             for (MapObject object : objects) {
                 if (object instanceof RectangleMapObject) {
                     Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
                     Rectangle scaledRectangle = new Rectangle(rectangle.x * scale, rectangle.y * scale, rectangle.width * scale, rectangle.height * scale);
-                    if (Intersector.overlaps(scaledRectangle, futureBounds)) {
-                        return false;
+                    if (Intersector.overlaps(scaledRectangle, playerBounds)) {
+                        return true;
                     }
                 }
             }
         }
-        return true;
+        return false;
     }
 
     /**
@@ -122,4 +122,6 @@ public class GameMap {
         renderer.dispose();
 
     }
+
+    
 }
