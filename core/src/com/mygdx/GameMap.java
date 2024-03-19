@@ -124,8 +124,8 @@ public class GameMap {
             inHouse = !inHouse;
             toggleLayerVisibility("house", "house_roof1");
             toggleLayerVisibility("house", "house_roof2");
-            toggleLayerVisibility("house", "house_roof2");
-            toggleLayerVisibility("house", "house_roof2");           
+            toggleLayerVisibility("house", "house_outside");
+            toggleLayerVisibility("house", "house_door_open");           
         }
         
         if((isInArea(Position, width, height, "restaurant_layer") && !inRestaurant) || (!isInArea(Position, width, height, "restaurant_layer") && inRestaurant)){
