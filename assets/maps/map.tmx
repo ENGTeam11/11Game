@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="30" height="35" tilewidth="16" tileheight="16" infinite="0" nextlayerid="113" nextobjectid="139">
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" width="30" height="35" tilewidth="16" tileheight="16" infinite="0" nextlayerid="120" nextobjectid="182">
  <tileset firstgid="1" source="tilesets/Terrain.tsx"/>
  <tileset firstgid="1513" source="tilesets/house_walls.tsx"/>
  <tileset firstgid="4695" source="tilesets/house_assets.tsx"/>
@@ -2714,7 +2714,14 @@
 0,0,0,0,0,0,0,0,23237,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="110" name="collision_layer">
+ <objectgroup id="119" name="relax_interact" locked="1">
+  <object id="175" x="10.6667" y="51.3333" width="48" height="57.6667"/>
+  <object id="176" x="343" y="414.75" width="34" height="64"/>
+  <object id="179" x="248.5" y="345.5" width="31.5" height="23"/>
+  <object id="180" x="304" y="246" width="16" height="27.5"/>
+  <object id="181" x="251" y="167" width="25.5" height="24.5"/>
+ </objectgroup>
+ <objectgroup id="110" name="collision_layer" locked="1">
   <properties>
    <property name="obstacle" type="bool" value="true"/>
   </properties>
@@ -2835,6 +2842,35 @@
   <object id="136" x="0" y="0" width="480"/>
   <object id="137" x="0" y="0" height="560"/>
   <object id="138" x="0" y="560" width="480"/>
+ </objectgroup>
+ <objectgroup id="114" name="restaurant_layer" locked="1">
+  <object id="151" x="282.667" y="45.6667" width="186.667" height="87.6667"/>
+  <object id="152" x="394.667" y="126.333" width="74.6667" height="87.3333"/>
+  <object id="161" x="353" y="155.333" height="0.333333"/>
+  <object id="164" x="351" y="118.667" width="18.3333" height="38"/>
+ </objectgroup>
+ <objectgroup id="115" name="cs_layer" locked="1">
+  <object id="154" x="27" y="251" width="106.5" height="123"/>
+  <object id="155" x="26.5" y="470" width="122.5" height="46.5"/>
+  <object id="156" x="74" y="361.5" width="27.5" height="119"/>
+  <object id="158" x="80.6667" y="246" width="15" height="39.3333"/>
+ </objectgroup>
+ <objectgroup id="116" name="sleep_interact" locked="1">
+  <object id="166" x="175.625" y="55.125" width="37.75" height="46.375"/>
+ </objectgroup>
+ <objectgroup id="117" name="eat_Interact" locked="1">
+  <object id="168" x="86.375" y="124.25" width="46.375" height="24.625"/>
+  <object id="170" x="303.75" y="47.5" width="47.75" height="59.75"/>
+  <object id="171" x="351" y="47" width="97" height="44"/>
+ </objectgroup>
+ <objectgroup id="118" name="study_interact" locked="1">
+  <object id="174" x="31.75" y="495.25" width="112" height="21.75"/>
+ </objectgroup>
+ <objectgroup id="113" name="house_layer" locked="1">
+  <object id="140" x="11" y="63.3333" width="154.333" height="86"/>
+  <object id="146" x="163.333" y="63.3333" width="50.3333" height="37.6667"/>
+  <object id="148" x="32.3333" y="148.333" width="15" height="22"/>
+  <object id="149" x="51" y="107.667"/>
  </objectgroup>
  <objectgroup id="112" name="spawn_point" locked="1">
   <object id="134" x="352" y="272" width="16" height="16"/>
