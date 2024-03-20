@@ -23,6 +23,7 @@ public class CameraManager {
         zoom_mult = 0.2f;
         player_bound = 400;
         camera = new OrthographicCamera(position.x, position.y); 
+        camera.zoom = 0.65f;
     }
 
     /**
