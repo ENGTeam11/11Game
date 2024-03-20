@@ -66,7 +66,6 @@ public class GameScreen extends ScreenAdapter {
 
         //create all the interaction menus and the stage they use to display
         stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-
         menuTextStyle = new LabelStyle(font, Color.WHITE); 
         createStudy();
         createRelax();

@@ -6,7 +6,10 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 
-
+/**
+ * A class to manage the energy needed in the game, 
+ * facilitates the rendering of the bar, storing the energy, and energy loss functions
+ */
 public class EnergyMeter {
     private int energy, max_energy, width;
     private Rectangle filled_bar, empty_bar;

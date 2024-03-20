@@ -5,6 +5,9 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 
+/**
+ * Manages the camera that the Gamescreen uses, facilitates the camera used, its following mechanics, the zooming mechanics and the boundary of the camera
+ */
 public class CameraManager {
     public int player_bound;
     public float zoom_mult;
