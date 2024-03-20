@@ -1,9 +1,7 @@
 package com.mygdx;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -11,12 +9,17 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 
 public class game extends Game {
-	//variables
-	public Skin skin;
-
+	public Music backgroundMusic; // Background music
+	public Skin skin; // UI Skin
 
 	@Override
 	public void create() {
+
+		// Background Music
+		backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("music/background_music.mp3"));
+		backgroundMusic.setLooping(true);
+		backgroundMusic.setVolume(0.4f);
+		backgroundMusic.play();
 
 		//skins
 		skin = new Skin();
