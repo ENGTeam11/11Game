@@ -78,7 +78,7 @@ public class GameScreen extends ScreenAdapter {
         float characterY = prefs.getFloat("characterY", spawnPoint.y);
         Vector2 characterPosition = new Vector2(characterX, characterY);
 
-        player = new Player(new Texture("down_idle_1.png"), characterPosition.x, characterPosition.y, 2, gameMap);
+        player = new Player(new Texture("character/down_idle_1.png"), characterPosition.x, characterPosition.y, 2, gameMap);
         player.create();
 
         energyMeter = new EnergyMeter();

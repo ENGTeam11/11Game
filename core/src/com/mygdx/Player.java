@@ -76,7 +76,7 @@ public class Player {
      * Loads the animations for the player from a TextureAtlas.
      */
     public void create(){
-        TextureAtlas allAnimations = new TextureAtlas(Gdx.files.internal("allAnimationsAtlas.atlas"));
+        TextureAtlas allAnimations = new TextureAtlas(Gdx.files.internal("character/allAnimationsAtlas.atlas"));
 
         //idle TextureAtlas
         idle = new Animation<>(FRAME_TIME, allAnimations.findRegions("down_idle"));
