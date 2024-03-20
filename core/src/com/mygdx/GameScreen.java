@@ -54,11 +54,6 @@ public class GameScreen extends ScreenAdapter {
     public GameScreen(Game game, Skin skin) {
         this.game = game;
         this.skin = skin;
-    }
-
-    @Override
-    public void show() {
-        batch = new SpriteBatch();
 
         font = new BitmapFont();
 
@@ -82,14 +77,22 @@ public class GameScreen extends ScreenAdapter {
         float characterY = prefs.getFloat("characterY", spawnPoint.y);
         Vector2 characterPosition = new Vector2(characterX, characterY);
 
-        cameraHandler = new CameraManager(characterPosition);
-        camera = cameraHandler.camera;
-        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
         player = new Player(new Texture("down_idle_1.png"), characterPosition.x, characterPosition.y, 2, gameMap);
         player.create();
 
         energyMeter = new EnergyMeter();
+
+    }
+
+    @Override
+    public void show() {
+        batch = new SpriteBatch();
+        
+        characterPosition = getCharacterPosition();
+        
+        cameraHandler = new CameraManager(characterPosition);
+        camera = cameraHandler.camera;
+        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         Gdx.input.setInputProcessor(stage);
 
@@ -99,7 +102,7 @@ public class GameScreen extends ScreenAdapter {
     public void render(float delta) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
             saveCharacterPosition();
-            game.setScreen(new inGameMenu(game, skin));
+            game.setScreen(new inGameMenu(game, skin, this));
         }
         handleInput();
 

@@ -18,11 +18,13 @@ public class inGameMenu extends ScreenAdapter {
     private Stage stage;
     private Game game;
     private Skin skin;
+    private GameScreen prevScreen;
     private SelectBox<String> resolutionSelectBox;
 
-    public inGameMenu(Game game, Skin skin){
+    public inGameMenu(Game game, Skin skin, GameScreen prevScreen){
         this.game = game;
         this.skin = skin;
+        this.prevScreen = prevScreen;
     }
 
     @Override
@@ -64,7 +66,7 @@ public class inGameMenu extends ScreenAdapter {
         resumeButton.addListener(new ClickListener(){
            @Override
            public void clicked(InputEvent event, float x, float y){
-               game.setScreen(new GameScreen(game, skin));
+               game.setScreen(prevScreen);
                dispose();
            }
         });
@@ -102,7 +104,7 @@ public class inGameMenu extends ScreenAdapter {
         System.out.println("resolution is now: " + selectedResolution);
 
 
-        game.setScreen(new inGameMenu(game, skin));
+        game.setScreen(new inGameMenu(game, skin, prevScreen));
     }
 
     private void toggleFullscreen(){
@@ -112,14 +114,14 @@ public class inGameMenu extends ScreenAdapter {
         else{
             Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
         }
-        game.setScreen(new inGameMenu(game, skin));
+        game.setScreen(new inGameMenu(game, skin, prevScreen));
     }
 
 
     @Override
     public void render(float delta){
         if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
-            game.setScreen(new GameScreen(game, skin));
+            game.setScreen(prevScreen);
         }
         Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
