@@ -98,6 +98,7 @@ public class GameScreen extends ScreenAdapter {
         Gdx.input.setInputProcessor(stage);
 
         energyMeter.setup();
+        dayCycleManager.setup();
 
     }
 
