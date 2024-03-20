@@ -2,6 +2,8 @@ package com.mygdx;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
@@ -13,7 +15,11 @@ import com.badlogic.gdx.math.Rectangle;
 public class EnergyMeter {
     private int energy, max_energy, width;
     private Rectangle filled_bar, empty_bar;
-    ShapeRenderer shape;
+    private ShapeRenderer shape;
+    private SpriteBatch batch;
+    private BitmapFont font;
+
+    
 
     public EnergyMeter() {
         energy = 100;
@@ -22,7 +28,13 @@ public class EnergyMeter {
         filled_bar = new Rectangle(25, Gdx.graphics.getHeight()-35, width, 15);
         empty_bar = new Rectangle(25, Gdx.graphics.getHeight()-35, width, 15);
 
+        
+    }
+
+    public void setup () {
         shape = new ShapeRenderer();
+        font = new BitmapFont();
+        batch = new SpriteBatch();
     }
 
     /**
@@ -47,6 +59,10 @@ public class EnergyMeter {
         shape.setColor(Color.GRAY);
         shape.rect(empty_bar.x, empty_bar.y, empty_bar.width, empty_bar.height);
         shape.end();
+
+        batch.begin();
+        font.draw(batch, "Energy: "+energy+"/"+max_energy, 25, Gdx.graphics.getHeight()-5);
+        batch.end();
     }
 
     public int getEnergy(){
