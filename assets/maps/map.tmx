@@ -1732,7 +1732,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
   </layer>
-  <layer id="62" name="cs_roof2" width="30" height="35" locked="1">
+  <layer id="62" name="cs_roof2" width="30" height="35" visible="0" locked="1">
    <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -1771,7 +1771,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
   </layer>
-  <layer id="61" name="cs_roof1" width="30" height="35" locked="1">
+  <layer id="61" name="cs_roof1" width="30" height="35" visible="0" locked="1">
    <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -2858,7 +2858,7 @@
  <objectgroup id="116" name="sleep_interact" locked="1">
   <object id="166" x="175.625" y="55.125" width="37.75" height="46.375"/>
  </objectgroup>
- <objectgroup id="117" name="eat_Interact" locked="1">
+ <objectgroup id="117" name="eat_interact">
   <object id="168" x="86.375" y="124.25" width="46.375" height="24.625"/>
   <object id="170" x="303.75" y="47.5" width="47.75" height="59.75"/>
   <object id="171" x="351" y="47" width="97" height="44"/>

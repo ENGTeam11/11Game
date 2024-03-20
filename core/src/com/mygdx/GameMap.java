@@ -81,7 +81,8 @@ public class GameMap {
      * @param Position The proposed position of the player.
      * @param width The width of the player's bounds.
      * @param height The height of the player's bounds.
-     * @return true if the player can move to the newPosition without collisions; false otherwise.
+     * @param layerName the name of the object layer in the map
+     * @return true if the player is within the boundary of the object layer; false otherwise.
      */
     public boolean isInArea(Vector2 Position, float width, float height, String layerName) {
         Rectangle playerBounds = new Rectangle(Position.x, Position.y, width, height);
@@ -118,8 +119,14 @@ public class GameMap {
         return new Vector2(1000, 800);
     }
 
+    /**
+     * Checks whether the player is within any of the buildings and toggles the visibility of the roof of any building the player is in 
+     * @param Position position of the player
+     * @param width the width of the player sprite
+     * @param height the height of the players sprite
+     */
     public void insideCheck(Vector2 Position, float width, float height){
-        //checks if in house
+        //house
         if((isInArea(Position, width, height, "house_layer") && !inHouse) || (!isInArea(Position, width, height, "house_layer") && inHouse)){
             inHouse = !inHouse;
             toggleLayerVisibility("house", "house_roof1");
@@ -128,6 +135,7 @@ public class GameMap {
             toggleLayerVisibility("house", "house_door_open");           
         }
         
+        //Restaurant
         if((isInArea(Position, width, height, "restaurant_layer") && !inRestaurant) || (!isInArea(Position, width, height, "restaurant_layer") && inRestaurant)){
             inRestaurant = !inRestaurant;
             toggleLayerVisibility("restaurant", "res_roof1");
@@ -136,6 +144,7 @@ public class GameMap {
             toggleLayerVisibility("restaurant", "res_door_open");
         }
 
+        //computer science building
         if((isInArea(Position, width, height, "cs_layer") && !inCS) || (!isInArea(Position, width, height, "cs_layer") && inCS)){
             inCS = !inCS;
             toggleLayerVisibility("cs_building", "cs_roof1");

@@ -1,9 +1,13 @@
 package com.mygdx;
 
+import java.lang.reflect.Array;
+
 import com.badlogic.gdx.*;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -14,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
@@ -21,23 +26,29 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 public class GameScreen extends ScreenAdapter {
     private Game game;
     private Skin skin;
+    BitmapFont font;
 
+    private LabelStyle menuTextStyle;
     private Table studyTable;
     private Table relaxTable;
     private Table sleepTable;
     private Table eatTable;
     private Table insufficientTable;
-
+    private Stage stage;
+    private Table currentTable;
 
     protected CameraManager cameraHandler;
     protected OrthographicCamera camera;
+
     private SpriteBatch batch;
     private Character character;
+
     private Player player;
-    private Stage stage;
     private Vector2 characterPosition;
+
     public Preferences prefs;
     private GameMap gameMap;
+
     private EnergyMeter energyMeter;
 
     public GameScreen(Game game, Skin skin) {
@@ -49,15 +60,20 @@ public class GameScreen extends ScreenAdapter {
     public void show() {
         batch = new SpriteBatch();
 
+        font = new BitmapFont();
+
         prefs = Gdx.app.getPreferences("game_prefs");
 
         //create all the interaction menus and the stage they use to display
         stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+
+        menuTextStyle = new LabelStyle(font, Color.WHITE); 
         createStudy();
         createRelax();
         createSleep();
         createEat();
         createInsufficient();
+        currentTable = null;
 
 
         gameMap = new GameMap("maps/map.tmx");
@@ -92,6 +108,8 @@ public class GameScreen extends ScreenAdapter {
         Vector2 characterPosition = getCharacterPosition();
         
         gameMap.insideCheck(characterPosition, player.getWidth(), player.getHeight());
+
+        checkInteract();
         
         cameraHandler.update(delta, characterPosition);
         batch.setProjectionMatrix(camera.combined);
@@ -102,6 +120,13 @@ public class GameScreen extends ScreenAdapter {
         gameMap.render(camera);
         player.render(delta, camera);
         energyMeter.render();
+
+        batch.begin();
+        if (currentTable != null){
+            font.draw(batch, "press ENTER \n" + 
+                                " to interact", characterPosition.x+20, characterPosition.y - 20);
+        }
+        batch.end();
 
         stage.act(delta);
 	    stage.draw();
@@ -132,6 +157,10 @@ public class GameScreen extends ScreenAdapter {
         if (!Gdx.input.isKeyPressed(Input.Keys.LEFT) && !Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             player.stopMovingLeft();
             player.stopMovingRight();
+        }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.ENTER) && stage.getActors().size == 0 && currentTable!= null){
+            stage.addActor(currentTable);
         }
     }
 
@@ -176,18 +205,40 @@ public class GameScreen extends ScreenAdapter {
         // Dispose other resources here
     }
 
+    /**
+     * checks if the player is within any of the interactable regions and sets the currentTable according to which area they are in
+     */
+    private void checkInteract(){
+        if(gameMap.isInArea(characterPosition, player.getWidth(), player.getHeight(), "study_interact")){
+            currentTable = studyTable;
+        }
+        else if(gameMap.isInArea(characterPosition, player.getWidth(), player.getHeight(), "relax_interact")){
+            currentTable = relaxTable;
+        }
+        else if(gameMap.isInArea(characterPosition, player.getWidth(), player.getHeight(), "eat_interact")){
+            currentTable = eatTable;
+        }
+        else if(gameMap.isInArea(characterPosition, player.getWidth(), player.getHeight(), "sleep_interact")){
+            currentTable = sleepTable;
+        }
+        else {
+            currentTable = null;
+        }
+
+    }
+
 
     /**
      * creates the menu for studying
      */
     private void createStudy(){
         studyTable = new Table();
-        Label studyTitle = new Label("Study for how many hours?", skin);
+        Label studyTitle = new Label("Study for how many hours?", menuTextStyle);
         Slider studyTime = new Slider(1, 5, 1, false ,skin);
         TextButton studyConfirm = new TextButton("Confirm", skin);
         TextButton studyCancel = new TextButton("Cancel", skin);
-        Label studyVal = new Label(Float.toString(studyTime.getValue()), skin);
-        Label studyCost = new Label("Cost: " + Float.toString(studyTime.getValue() * 15), skin);
+        Label studyVal = new Label(Float.toString(studyTime.getValue()), menuTextStyle);
+        Label studyCost = new Label("Cost: " + Float.toString(studyTime.getValue() * 15), menuTextStyle);
 
         studyTable.add(studyTitle);
         studyTable.row();
@@ -217,7 +268,7 @@ public class GameScreen extends ScreenAdapter {
                 studyTable.remove();
                 }
                 else{
-                    //stage.addActor
+                    stage.addActor(insufficientTable);
                     studyTable.remove();
                 }
             }
@@ -237,12 +288,12 @@ public class GameScreen extends ScreenAdapter {
      */
     private void createRelax(){
         relaxTable = new Table();
-        Label relaxTitle = new Label("relax for how many hours?", skin);
+        Label relaxTitle = new Label("relax for how many hours?", menuTextStyle);
         Slider relaxTime = new Slider(1, 5, 1, false ,skin);
         TextButton relaxConfirm = new TextButton("Confirm", skin);
         TextButton relaxCancel = new TextButton("Cancel", skin);
-        Label relaxVal = new Label(Float.toString(relaxTime.getValue()), skin);
-        Label relaxCost = new Label("Cost: " + Float.toString(relaxTime.getValue() * 7), skin);
+        Label relaxVal = new Label(Float.toString(relaxTime.getValue()), menuTextStyle);
+        Label relaxCost = new Label("Cost: " + Float.toString(relaxTime.getValue() * 7), menuTextStyle);
 
         relaxTable.add(relaxTitle);
         relaxTable.row();
@@ -272,7 +323,7 @@ public class GameScreen extends ScreenAdapter {
                     relaxTable.remove();
                 }
                 else{
-                    //stage.addActor
+                    stage.addActor(insufficientTable);
                     relaxTable.remove();
                 }
             }
@@ -293,7 +344,7 @@ public class GameScreen extends ScreenAdapter {
     private void createSleep(){
         
         sleepTable = new Table();
-        Label sleepTitle = new Label("Sleep until next day?", skin);
+        Label sleepTitle = new Label("Sleep until next day?", menuTextStyle);
         TextButton sleepYes = new TextButton("Yes", skin);
         TextButton sleepNo = new TextButton("No", skin);
         
@@ -325,7 +376,7 @@ public class GameScreen extends ScreenAdapter {
      */
     private void createEat(){
         eatTable = new Table();
-        Label eatTitle = new Label("Eat?", skin);
+        Label eatTitle = new Label("Eat?", menuTextStyle);
         TextButton eatYes = new TextButton("Yes", skin);
         TextButton eatNo = new TextButton("No", skin);
 
@@ -357,10 +408,11 @@ public class GameScreen extends ScreenAdapter {
      */
     private void createInsufficient(){
         insufficientTable = new Table();
-        Label insufficientTitle = new Label("Not enough energy", skin);
+        Label insufficientTitle = new Label("Not enough energy", menuTextStyle);
         TextButton insufficientOk = new TextButton("Ok", skin);
 
         insufficientTable.add(insufficientTitle);
+        insufficientTable.row();
         insufficientTable.add(insufficientOk);
         insufficientTable.setFillParent(true);
         insufficientTable.center();
