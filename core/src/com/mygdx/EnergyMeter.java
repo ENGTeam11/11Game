@@ -103,4 +103,9 @@ public class EnergyMeter {
         filled_bar.setY(Gdx.graphics.getHeight()-35);
         empty_bar.setY(Gdx.graphics.getHeight()-35);
     }
+
+    public void dispose() {
+        font.dispose();
+        shape.dispose();
+    }
 }

@@ -355,7 +355,7 @@ public class GameScreen extends ScreenAdapter {
     private void createSleep(){
         
         sleepTable = new Table();
-        Label sleepTitle = new Label("Sleep until next day?", menuTextStyle);
+        Label sleepTitle = new Label("Sleep until 8am?", menuTextStyle);
         TextButton sleepYes = new TextButton("Yes", skin);
         TextButton sleepNo = new TextButton("No", skin);
         
