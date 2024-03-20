@@ -14,13 +14,23 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 
+/**
+ * Represents the in-game menu (pause menu) screen, providing options like resume, change resolutions,
+ * toggle fullscreen, and quit game
+ */
 public class inGameMenu extends ScreenAdapter {
-    private Stage stage;
-    private Game game;
-    private Skin skin;
-    private GameScreen prevScreen;
-    private SelectBox<String> resolutionSelectBox;
+    private Stage stage; // The stage for managing actors, handling UI components.
+    private Game game; // Reference to the main game objects to switch screen.
+    private Skin skin; // The skip for styling UI components
+    private GameScreen prevScreen; // Reference to the previour screen to return after resume
+    private SelectBox<String> resolutionSelectBox; // Dropdown for selecting screen resolutions
 
+    /**
+     * Constrcuts the in-game menu
+     * @param game Reference to the main game object for screen management
+     * @param skin UI for styling
+     * @param prevScreen Reference to the previously active screen for returning on resume
+     */
     public inGameMenu(Game game, Skin skin, GameScreen prevScreen){
         this.game = game;
         this.skin = skin;
@@ -30,15 +40,17 @@ public class inGameMenu extends ScreenAdapter {
     @Override
     public void show(){
         stage = new Stage();
-        Gdx.input.setInputProcessor(stage);
+        Gdx.input.setInputProcessor(stage); // Set the stage to process UI input
 
         Table table = new Table();
-        table.setFillParent(true);
-        stage.addActor(table);
+        table.setFillParent(true); // Make the table fill the screen
+        stage.addActor(table); // Add the table to the stage
 
+        // Create UI components adn add them to the table
         TextButton resumeButton =  new TextButton("Resume", skin);
         table.add(resumeButton).padBottom(50).row();
 
+        // Populate resolution choices
         Array<String> resolutions = new Array<>();
         resolutions.add("800x600");
         resolutions.add("1024x768");
@@ -62,37 +74,40 @@ public class inGameMenu extends ScreenAdapter {
         TextButton quitButton = new TextButton("Quit Game", skin);
         table.add(quitButton).padBottom(20).row();
 
-
+        // Add listeners to buttons for functionality
         resumeButton.addListener(new ClickListener(){
            @Override
            public void clicked(InputEvent event, float x, float y){
-               game.setScreen(prevScreen);
-               dispose();
+               game.setScreen(prevScreen); //Return to the previous screen
+               dispose(); // Dispose of this screen's resources
            }
         });
 
         applyButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                applyResolution();
+                applyResolution(); // Apply the selected resolution
             }
         });
 
         fullscreen.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
-                toggleFullscreen();
+                toggleFullscreen(); // Toggle fullscreen mode
             }
         });
 
         quitButton.addListener(new ClickListener(){
            @Override
            public void clicked(InputEvent event, float x, float y){
-               Gdx.app.exit();
+               Gdx.app.exit(); // Exit the application
            }
         });
     }
 
+    /**
+     * Applies the selected resolution from the resolutionSelectBox
+     */
     private void applyResolution() {
         String selectedResolution = resolutionSelectBox.getSelected();
 
@@ -104,29 +119,32 @@ public class inGameMenu extends ScreenAdapter {
         System.out.println("resolution is now: " + selectedResolution);
 
 
-        game.setScreen(new inGameMenu(game, skin, prevScreen));
+        game.setScreen(new inGameMenu(game, skin, prevScreen)); // Refresh the screen to apply resolution.
     }
 
+    /**
+     * Toggles between fullscreen and windowed mode
+     */
     private void toggleFullscreen(){
         if(Gdx.graphics.isFullscreen()){
-            Gdx.graphics.setWindowedMode(800,600);
+            Gdx.graphics.setWindowedMode(800,600); // Return to default windows resolution
         }
         else{
-            Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+            Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode()); // Set to fullscreen
         }
-        game.setScreen(new inGameMenu(game, skin, prevScreen));
+        game.setScreen(new inGameMenu(game, skin, prevScreen)); // Refresh the screen to apply mode change
     }
 
 
     @Override
     public void render(float delta){
         if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
-            game.setScreen(prevScreen);
+            game.setScreen(prevScreen); // Return to the previous screen on ESC press
         }
-        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1); // Set background color
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // Clear the screen
 
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
-        stage.draw();
+        stage.draw(); // Draw the stage
     }
 }
