@@ -28,6 +28,10 @@ public class DayCycleManager {
         this.day = 1;
         this.hour = 8;
         this.minute = 0;
+        
+    }
+
+    public void setup(){
         font = new BitmapFont();
         font.setColor(Color.WHITE);
         shapeRenderer = new ShapeRenderer();

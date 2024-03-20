@@ -26,7 +26,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 public class GameScreen extends ScreenAdapter {
     private Game game;
     private Skin skin;
-    BitmapFont font;
+    private BitmapFont font;
 
     private LabelStyle menuTextStyle;
     private Table studyTable;
@@ -96,6 +96,9 @@ public class GameScreen extends ScreenAdapter {
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         Gdx.input.setInputProcessor(stage);
+
+        energyMeter.setup();
+        dayCycleManager.setup();
 
     }
 
