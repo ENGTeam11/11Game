@@ -1,7 +1,5 @@
 package com.mygdx;
 
-import java.lang.reflect.Array;
-
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -41,8 +39,6 @@ public class GameScreen extends ScreenAdapter {
     protected OrthographicCamera camera;
 
     private SpriteBatch batch;
-    private Character character;
-
     private Player player;
     private Vector2 characterPosition;
 
