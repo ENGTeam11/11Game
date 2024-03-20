@@ -1,6 +1,7 @@
 package com.mygdx;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -9,7 +10,8 @@ public class StatsTracker {
     public int hoursSlept, minutesSlept, hoursStudied, hoursRelaxed, mealsEaten;
     
     private BitmapFont font; // Font used to draw text
-    private SpriteBatch batch; // Separate SpriteBatch for drawing text
+    private SpriteBatch batch;// Separate SpriteBatch for drawing text
+    private ShapeRenderer shapeRenderer;
 
     public StatsTracker(){
         hoursSlept = 0;
@@ -22,6 +24,7 @@ public class StatsTracker {
     public void setup(){
         font = new BitmapFont();
         batch = new SpriteBatch();
+        shapeRenderer = new ShapeRenderer();
     }
 
     public void addSleep(int hours, int minutes){
@@ -60,14 +63,20 @@ public class StatsTracker {
     }
 
     public void render(){
+        float height = 90;
         float width = 125;
-        float x = Gdx.graphics.getWidth() - width;
+        float x = 30;
+        float y = 30;
 
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(Color.DARK_GRAY);
+        shapeRenderer.rect(x - 5, y - 20, width + 5, height);
+        shapeRenderer.end();
         batch.begin();
-        font.draw(batch, "Time slept: "+String.format("%02d:%02d", getSleepHours(), getSleepMinutes()), x, 15);
-        font.draw(batch, "Hours studying: "+getStudy(), x, 35);
-        font.draw(batch, "Hours relaxing: "+getRelax(), x, 55);
-        font.draw(batch, "Meals eaten: "+getMeals(), x, 75);
+        font.draw(batch, "Time slept: "+String.format("%02d:%02d", getSleepHours(), getSleepMinutes()), x, y);
+        font.draw(batch, "Hours studying: "+getStudy(), x, y + 20);
+        font.draw(batch, "Hours relaxing: "+getRelax(), x, y + 40);
+        font.draw(batch, "Meals eaten: "+getMeals(), x, y + 60);
         batch.end();
     }
 
