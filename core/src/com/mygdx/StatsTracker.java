@@ -119,10 +119,13 @@ public class StatsTracker {
         float x = 30;
         float y = 30;
 
+        //draw background box
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(Color.DARK_GRAY);
         shapeRenderer.rect(x - 5, y - 20, width + 5, height);
         shapeRenderer.end();
+
+        //draw the text for the statistics
         batch.begin();
         font.draw(batch, "Time slept: "+String.format("%02d:%02d", getSleepHours(), getSleepMinutes()), x, y);
         font.draw(batch, "Hours studying: "+getStudy(), x, y + 20);
