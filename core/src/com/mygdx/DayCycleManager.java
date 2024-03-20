@@ -1,11 +1,13 @@
 package com.mygdx;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 /**
  * Manages and displays an in-game day and time system. It provides functionality
@@ -20,11 +22,15 @@ public class DayCycleManager {
     private ShapeRenderer shapeRenderer; // Used to draw background boxes for day and time
     private SpriteBatch dayBatch; // Separate SpriteBatch for drawing text
     private float timeAccumulator = 0; // Accumulates real-time seconds to update in-game time
+    private Skin skin;
+    private Game game;
 
     /**
      * Initialize the DayCycleManager with starting day set to day - 1 and time set to 8:00
      */
-    public DayCycleManager() {
+    public DayCycleManager(Game game, Skin skin) {
+        this.game = game;
+        this.skin = skin;
         this.day = 1;
         this.hour = 8;
         this.minute = 0;
@@ -78,6 +84,9 @@ public class DayCycleManager {
      */
     public void nextDay() {
         day++;
+        if (day > maxDays){
+            game.setScreen(new EndScreen(game, skin));
+        }
     }
 
     /**

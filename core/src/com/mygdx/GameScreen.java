@@ -62,7 +62,7 @@ public class GameScreen extends ScreenAdapter {
         prefs = Gdx.app.getPreferences("game_prefs");
 
         stats = new StatsTracker();
-        dayCycleManager = new DayCycleManager();
+        dayCycleManager = new DayCycleManager(game, skin);
         gameMap = new GameMap("maps/map.tmx");
 
         Vector2 spawnPoint = gameMap.getSpawnPoint();
@@ -213,6 +213,7 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
+        stage.dispose();
         batch.dispose();
         player.dispose();
         gameMap.dispose();
