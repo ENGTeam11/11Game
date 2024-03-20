@@ -49,27 +49,19 @@ public class GameScreen extends ScreenAdapter {
     public Preferences prefs;
     private GameMap gameMap;
 
+    private StatsTracker stats;
+
     private EnergyMeter energyMeter;
     private DayCycleManager dayCycleManager;
 
     public GameScreen(Game game, Skin skin) {
         this.game = game;
         this.skin = skin;
-
         font = new BitmapFont();
 
         prefs = Gdx.app.getPreferences("game_prefs");
 
-        //create all the interaction menus and the stage they use to display
-        stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-        menuTextStyle = new LabelStyle(font, Color.WHITE); 
-        createStudy();
-        createRelax();
-        createSleep();
-        createEat();
-        createInsufficient();
-        currentTable = null;
-
+        stats = new StatsTracker();
         dayCycleManager = new DayCycleManager();
         gameMap = new GameMap("maps/map.tmx");
 
@@ -88,6 +80,16 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void show() {
         batch = new SpriteBatch();
+
+        //create all the interaction menus and the stage they use to display
+        stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        menuTextStyle = new LabelStyle(font, Color.WHITE); 
+        createStudy();
+        createRelax();
+        createSleep();
+        createEat();
+        createInsufficient();
+        currentTable = null;
         
         characterPosition = getCharacterPosition();
         
@@ -213,6 +215,7 @@ public class GameScreen extends ScreenAdapter {
         player.dispose();
         gameMap.dispose();
         dayCycleManager.dispose();
+        energyMeter.dispose();
         // Dispose other resources here
     }
 
@@ -273,10 +276,13 @@ public class GameScreen extends ScreenAdapter {
         studyConfirm.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                int cost = (int) (15 * studyTime.getValue());
+                int timePassed = (int) studyTime.getValue();
+                int cost = (int) (15 * timePassed);
                 if(cost <= energyMeter.getEnergy()){
                     energyMeter.loseEnergy(cost);
-                studyTable.remove();
+                    stats.addStudy((int) timePassed);
+                    dayCycleManager.addTime(timePassed, 0);
+                    studyTable.remove();
                 }
                 else{
                     stage.addActor(insufficientTable);
@@ -328,9 +334,12 @@ public class GameScreen extends ScreenAdapter {
         relaxConfirm.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                int cost = (int) (7 * relaxTime.getValue());
+                int timePassed = (int) relaxTime.getValue();
+                int cost = (int) (7 * timePassed);
                 if(cost <= energyMeter.getEnergy()){
                     energyMeter.loseEnergy(cost);
+                    stats.addRelax((int) timePassed);
+                    dayCycleManager.addTime(timePassed, 0);
                     relaxTable.remove();
                 }
                 else{
@@ -369,7 +378,27 @@ public class GameScreen extends ScreenAdapter {
         sleepYes.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                // code to advance day and set time back to start
+                int sleepHour;
+                int sleepMinute;
+                int currentHour = dayCycleManager.getHour();
+                int currentMinute = dayCycleManager.getMinute();
+                int totalTime = currentMinute + 60*currentHour; 
+                if (currentHour >= 8){
+                    int sleepTime = 24*60 - totalTime;
+                    sleepHour = sleepTime / 60;
+                    sleepMinute = sleepTime % 60;
+                    sleepHour += 8;
+                }
+                else {
+                    int sleepTime = 8*60 - totalTime;
+                    sleepHour = sleepTime / 60;
+                    sleepMinute = sleepTime % 60;
+                }
+                stats.addSleep(sleepHour, sleepMinute);
+                dayCycleManager.addTime(sleepHour, sleepMinute);
+                
+                energyMeter.resetEnergy();
+
                 sleepTable.remove();
             } 
         });
@@ -401,7 +430,8 @@ public class GameScreen extends ScreenAdapter {
         eatYes.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                // code to advance time and increase eat count
+                dayCycleManager.addTime(0, 30);
+                stats.mealAte();
                 eatTable.remove();
             } 
         });

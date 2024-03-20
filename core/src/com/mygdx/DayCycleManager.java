@@ -60,8 +60,17 @@ public class DayCycleManager {
         }
     }
 
-    public void addTime(int hours) {
-        // Time manipulation logic...
+    public void addTime(int hours, int minutes) {
+        minute += minutes;
+        hour += hours;
+        if (minute >= 60){
+            hour += 1;
+            minute -= 60;
+        }
+        if (hour >= 24){
+            hour -= 24;
+            nextDay();
+        }
     }
 
     /**
@@ -77,6 +86,14 @@ public class DayCycleManager {
      */
     public String getTime() {
         return String.format("%02d:%02d", hour, minute);
+    }
+
+    public int getHour(){
+        return hour;
+    }
+
+    public int getMinute(){
+        return minute;
     }
 
     /**
@@ -120,5 +137,6 @@ public class DayCycleManager {
     public void dispose() {
         font.dispose();
         shapeRenderer.dispose();
+        dayBatch.dispose();
     }
 }

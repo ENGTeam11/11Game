@@ -69,6 +69,10 @@ public class EnergyMeter {
         return energy;
     }
 
+    public void resetEnergy(){
+        energy = max_energy;
+    }
+
     /**
      * used to subtract the energy required for an activity
      * @param cost the amount of energy to subtract
@@ -107,5 +111,6 @@ public class EnergyMeter {
     public void dispose() {
         font.dispose();
         shape.dispose();
+        batch.dispose();
     }
 }
