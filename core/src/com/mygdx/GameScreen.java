@@ -101,6 +101,7 @@ public class GameScreen extends ScreenAdapter {
 
         energyMeter.setup();
         dayCycleManager.setup();
+        stats.setup();
 
     }
 
@@ -132,6 +133,7 @@ public class GameScreen extends ScreenAdapter {
         player.render(delta, camera);
         energyMeter.render();
         dayCycleManager.render();
+        stats.render();
 
         batch.begin();
         if (currentTable != null){
@@ -216,6 +218,7 @@ public class GameScreen extends ScreenAdapter {
         gameMap.dispose();
         dayCycleManager.dispose();
         energyMeter.dispose();
+        stats.dispose();
         // Dispose other resources here
     }
 
