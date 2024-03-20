@@ -50,6 +50,7 @@ public class GameScreen extends ScreenAdapter {
     private GameMap gameMap;
 
     private EnergyMeter energyMeter;
+    private DayCycleManager dayCycleManager;
 
     public GameScreen(Game game, Skin skin) {
         this.game = game;
@@ -69,7 +70,7 @@ public class GameScreen extends ScreenAdapter {
         createInsufficient();
         currentTable = null;
 
-
+        dayCycleManager = new DayCycleManager();
         gameMap = new GameMap("maps/map.tmx");
 
         Vector2 spawnPoint = gameMap.getSpawnPoint();
@@ -107,8 +108,11 @@ public class GameScreen extends ScreenAdapter {
         handleInput();
 
         gameMap.update(delta);
+        dayCycleManager.update(delta);
+
         Vector2 characterPosition = getCharacterPosition();
         
+        gameMap.insideCheck(characterPosition, player.getWidth(), player.getHeight());
         gameMap.insideCheck(characterPosition, player.getWidth(), player.getHeight());
 
         checkInteract();
@@ -122,6 +126,7 @@ public class GameScreen extends ScreenAdapter {
         gameMap.render(camera);
         player.render(delta, camera);
         energyMeter.render();
+        dayCycleManager.render();
 
         batch.begin();
         if (currentTable != null){
@@ -204,6 +209,7 @@ public class GameScreen extends ScreenAdapter {
         batch.dispose();
         player.dispose();
         gameMap.dispose();
+        dayCycleManager.dispose();
         // Dispose other resources here
     }
 
