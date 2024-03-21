@@ -116,7 +116,7 @@ Thumbs.db
 ## VS Code
 *.code-workspace
 .vscode/*
-!.vscode/settings.json
+
 
 
 .idea
