@@ -110,12 +110,7 @@ public class Player {
     public void render(float delta, OrthographicCamera cam){
         elapsed_time += delta;
         float scale = 3f;
-
-
-        //position debugging
-        // System.out.println("Player position: " + position);
-
-        // setting animation booleans to match movement
+        
         Animation<TextureRegion> animation = idle;
         if (isMovingRight){
             animation = runRight;
